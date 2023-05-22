@@ -1,0 +1,17 @@
+﻿<Window x:Class="TestGenerator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestGenerator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="1000">
+    <Grid x:Name="MainGrid">
+        <Label Content="Генератор тестов для задач по программированию" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center"/>
+        <Label Content="Выберите вид задачи, по которой хотите сгенерировать тесты:" FontSize="25" HorizontalAlignment="Center" Margin="0,169,0,0" />
+        <Button Content="Массив" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="OpenArrayContent_Click" Margin="120,0,0,0" Height="90" Width="200" />
+        <Button Content="Граф" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenGraphContent_Click" Height="90" Width="200" />
+        <Button Content="Матрица" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="OpenMatrixContent_Click" Margin="670,0,0,0" Height="90" Width="200" />
+        <ContentControl x:Name="mainContentControl" />
+    </Grid>
+</Window>
