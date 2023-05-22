@@ -5,13 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestGenerator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000">
+        Title="MainWindow" Height="600" Width="1000"
+        ResizeMode="NoResize">
+    
     <Grid x:Name="MainGrid">
         <Label Content="Генератор тестов для задач по программированию" FontSize="32" FontWeight="Bold" HorizontalAlignment="Center"/>
         <Label Content="Выберите вид задачи, по которой хотите сгенерировать тесты:" FontSize="25" HorizontalAlignment="Center" Margin="0,169,0,0" />
-        <Button Content="Массив" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="OpenArrayContent_Click" Margin="120,0,0,0" Height="90" Width="200" />
-        <Button Content="Граф" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenGraphContent_Click" Height="90" Width="200" />
-        <Button Content="Матрица" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Center" Click="OpenMatrixContent_Click" Margin="670,0,0,0" Height="90" Width="200" />
+        <Button Content="Одномерный массив" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenOnedimArrayContent_Click" Margin="0,0,500,0" Height="90" Width="220" />
+        <Button Content="Многомерный массив" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenMultidimArrayContent_Click" Margin="0,250,500,0" Height="90" Width="220" />
+        <Button Content="Строки" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenStringContent_Click" Height="90" Width="220" />
+        <Button Content="Графы" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" Click="OpenGraphContent_Click" Margin="500,0,0,0" Height="90" Width="220" />
         <ContentControl x:Name="mainContentControl" />
     </Grid>
 </Window>

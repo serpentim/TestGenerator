@@ -24,17 +24,25 @@ namespace TestGenerator
         {
             InitializeComponent();
         }
-        private void OpenArrayContent_Click(object sender, RoutedEventArgs e)
+        private void OpenOnedimArrayContent_Click(object sender, RoutedEventArgs e)
         {
-            ArrayWindow arrayWindow = new ArrayWindow();
+            OnedimArrayWindow onedimArrayWindow = new OnedimArrayWindow();
             MainGrid.Children.Clear();
-            MainGrid.Children.Add(arrayWindow);
+            MainGrid.Children.Add(onedimArrayWindow);
+        }
+        private void OpenMultidimArrayContent_Click(object sender, RoutedEventArgs e)
+        {
+            MultidimArrayWindow multidimArrayWindow = new MultidimArrayWindow();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(multidimArrayWindow);
+        }
+        private void OpenStringContent_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Estimated time of arrival: Soon.");
         }
         private void OpenGraphContent_Click(object sender, RoutedEventArgs e)
         {
-        }
-        private void OpenMatrixContent_Click(object sender, RoutedEventArgs e)
-        {
+            MessageBox.Show("To be determined.");
         }
     }
 }
