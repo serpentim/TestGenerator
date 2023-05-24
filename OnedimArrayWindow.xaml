@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:TestGenerator"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="1000">
+
     <Grid x:Name="OnedimArrayGrid">
         <Label Content="Одномерный массив" FontSize="30" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="50,0,0,0" />
 
@@ -20,29 +21,34 @@
         <TextBlock Text="Макс. значение:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,100,0,0" />
         <TextBox x:Name="maxValueTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,140,0,0" Height="30" Width="155" />
 
-        <TextBlock x:Name="resultOnedim" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Height="300" Width="885" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="450,225,25,70">
+            <TextBox x:Name="resultOnedim" TextWrapping="Wrap" IsReadOnly="True" IsEnabled="True" Background="Transparent" BorderThickness="0"
+                       FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Height="auto" Width="480" />
+        </ScrollViewer>
 
         <Button Content="←" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,12,0,0" Width="35" Height="28" Click="Back_Click" />
+        <TextBox x:Name="fileCountTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,175,15" Height="35" Width="50" />
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,125,15" Click="CreateZip_Click" >
+            <Image Source="Assets/zip.png" Width="35" Height="35"/>
+        </Button>
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,25,15" Click="SaveToFile_Click" >
             <Image Source="Assets/save.png" Width="35" Height="35"/>
         </Button>
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,75,15" Click="Copy_Click" >
             <Image Source="Assets/copy.png" Width="35" Height="35"/>
         </Button>
-        <Button FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,15" Height="60" Width="140" Click="GenerateArray_Click" >
-            <TextBlock TextAlignment="Center">Обычная <LineBreak/> генерация</TextBlock>
+        <Button FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,15" Height="60" Width="100" Click="GenerateArray_Click" >
+            <TextBlock TextAlignment="Center">Генерация</TextBlock>
         </Button>
-        <Button FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,15" Height="60" Width="140" Click="GenerateArraySortAsc_Click" >
-            <TextBlock TextAlignment="Center">Генерация <LineBreak/> по возрастанию</TextBlock>
-        </Button>
-        <Button FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="350,0,0,15" Height="60" Width="140" Click="GenerateArraySortDesc_Click" >
-            <TextBlock TextAlignment="Center">Генерация <LineBreak/> по убыванию</TextBlock>
-        </Button>
-        <Button FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="500,0,0,15" Height="60" Width="140" Click="GenerateArraySortAscAlmost_Click" >
-            <TextBlock TextAlignment="Center">Генерация почти <LineBreak/> по возрастанию</TextBlock>
-        </Button>
-        <Button FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="650,0,0,15" Height="60" Width="140" Click="GenerateArraySortDescAlmost_Click" >
-            <TextBlock TextAlignment="Center">Генерация почти <LineBreak/> по убыванию</TextBlock>
-        </Button>
+        <RadioButton x:Name="standardRadioButton" Content="обыч." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,320" Height="60" Width="140" />
+        <RadioButton x:Name="sortAscRadioButton" Content="по возр." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,280" Height="60" Width="140" />
+        <RadioButton x:Name="sortDescRadioButton" Content="по убыв." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,240" Height="60" Width="140" />
+        <RadioButton x:Name="sortAscAlmostRadioButton" Content="по возр. (почти)" GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,200" Height="60" Width="140" />
+        <RadioButton x:Name="sortDescAlmostRadioButton" Content="по убыв. (почти)" GroupName="sortOptions" Checked="SortOption_Checked" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,160" Height="60" Width="140" />
     </Grid>
 </UserControl>
