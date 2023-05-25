@@ -74,7 +74,11 @@ namespace TestGenerator
                     // Check which sorting options are selected and perform the sorting accordingly
                     SortOptions(numbers, minValue, maxValue);
                 }
-                resultOnedim.Text = string.Join(" ", numbers);
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(size.ToString());
+                sb.AppendLine(string.Join(" ", numbers));
+                resultOnedim.Text = sb.ToString();
+                //resultOnedim.Text = string.Join(" ", numbers);
             }
             else
             {
@@ -372,28 +376,35 @@ namespace TestGenerator
         }
         private void SaveToFile_Click(object sender, RoutedEventArgs e)
         {
-            // Открытие диалогового окна сохранения файла
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Text Files (*.txt)|*.txt";
-            if (saveFileDialog.ShowDialog() == true)
+            if (int.TryParse(sizeTextBox.Text, out int size))
             {
-                // Получение пути выбранного файла
-                string filePath = saveFileDialog.FileName;
-
-                try
+                // Открытие диалогового окна сохранения файла
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Text Files (*.txt)|*.txt";
+                if (saveFileDialog.ShowDialog() == true)
                 {
-                    // Создание и использование объекта StreamWriter для записи данных в файл
-                    using (StreamWriter writer = new StreamWriter(filePath))
+                    // Получение пути выбранного файла
+                    string filePath = saveFileDialog.FileName;
+
+                    try
                     {
-                        writer.Write(resultOnedim.Text);
-                    }
+                        // Создание и использование объекта StreamWriter для записи данных в файл
+                        using (StreamWriter writer = new StreamWriter(filePath))
+                        {
+                            writer.Write(resultOnedim.Text);
+                        }
 
-                    MessageBox.Show("Файл успешно сохранен.");
+                        MessageBox.Show("Файл успешно сохранен.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при сохранении файла: " + ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Ошибка при сохранении файла: " + ex.Message);
-                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, введите корректное значение для размера массива.");
             }
         }
 
@@ -455,6 +466,8 @@ namespace TestGenerator
                             // Write the file content to the entry
                             using (StreamWriter writer = new StreamWriter(entry.Open(), System.Text.Encoding.UTF8))
                             {
+                                writer.WriteLine(size);
+
                                 foreach (int number in numbers)
                                 {
                                     writer.Write(number + " ");
