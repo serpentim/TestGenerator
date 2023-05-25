@@ -50,5 +50,20 @@
                   FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,200" Height="60" Width="140" />
         <RadioButton x:Name="sortDescAlmostRadioButton" Content="по убыв. (почти)" GroupName="sortOptions" Checked="SortOption_Checked" 
                   FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,160" Height="60" Width="140" />
+
+        <RadioButton x:Name="noSkewRadioButton" Content="без смещ." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,320" Height="60" Width="140" />
+        <RadioButton x:Name="skewMinRadioButton" Content="смещ. к мин." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,280" Height="60" Width="140" />
+        <RadioButton x:Name="skewMaxRadioButton" Content="смещ. к макс." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,240" Height="60" Width="140" />
+        <RadioButton x:Name="skewBothRadioButton" Content="смещ. к обоим." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,200" Height="60" Width="140" />
+
+        <CheckBox x:Name="manySameNumbersCheckBox" Content="мало уник. знач." 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="350,0,0,320" Height="60" Width="140" />
+        <CheckBox x:Name="palindromeCheckBox" Content="палиндромы" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="350,0,0,280" Height="60" Width="140" />
+
     </Grid>
 </UserControl>
