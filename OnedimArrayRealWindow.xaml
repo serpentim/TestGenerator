@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="TestGenerator.OnedimArrayRealWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestGenerator"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+
+    <Grid x:Name="OnedimArrayRealGrid">
+        <Label Content="Одномерный массив для вещественных чисел" FontSize="30" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="50,0,0,0" />
+
+        <TextBlock Text="Размер" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,60,0,0" />
+        <TextBlock Text="Диапазон" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,60,0,0" />
+
+        <TextBlock Text="Длина массива:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" />
+        <TextBox x:Name="sizeTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" Height="30" Width="155" />
+
+        <TextBlock Text="Мин. значение:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,100,0,0" />
+        <TextBox x:Name="minValueTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,140,0,0" Height="30" Width="155" />
+        <TextBlock Text="Макс. значение:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,100,0,0" />
+        <TextBox x:Name="maxValueTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,140,0,0" Height="30" Width="155" />
+
+        <TextBlock Text="Выходные данные:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,190,0,0" />
+        <Rectangle Stroke="Black" Margin="450,227,25,70" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="450,225,25,70">
+            <TextBox x:Name="resultOnedim" TextWrapping="Wrap" IsReadOnly="True" IsEnabled="True" Background="Transparent" BorderThickness="0"
+                       FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Height="auto" Width="480" />
+        </ScrollViewer>
+
+        <Button Content="←" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,12,0,0" Width="35" Height="28" Click="Back_Click" />
+        <TextBox x:Name="fileCountTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,175,15" Height="35" Width="50" />
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,125,15" Click="CreateZip_Click" >
+            <Image Source="Assets/zip.png" Width="35" Height="35"/>
+        </Button>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,25,15" Click="SaveToFile_Click" >
+            <Image Source="Assets/save.png" Width="35" Height="35"/>
+        </Button>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,75,15" Click="Copy_Click" >
+            <Image Source="Assets/copy.png" Width="35" Height="35"/>
+        </Button>
+        <Button FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,50,0" Height="60" Width="100" Click="GenerateArrayReal_Click" >
+            <TextBlock TextAlignment="Center">Генерация</TextBlock>
+        </Button>
+
+        <TextBlock Text="Сортировка по:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,360" />
+        <RadioButton x:Name="standardRadioButton" Content="без сорт." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,320" Height="30" Width="140" />
+        <RadioButton x:Name="sortAscRadioButton" Content="возр." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,280" Height="30" Width="140" />
+        <RadioButton x:Name="sortDescRadioButton" Content="убыв." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,240" Height="30" Width="140" />
+        <RadioButton x:Name="sortAscAlmostRadioButton" Content="возр. (почти)" GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,200" Height="30" Width="140" />
+        <RadioButton x:Name="sortDescAlmostRadioButton" Content="убыв. (почти)" GroupName="sortOptions" Checked="SortOption_Checked" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,160" Height="30" Width="140" />
+
+        <TextBlock Text="Смещение к:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,360" />
+        <RadioButton x:Name="noSkewRadioButton" Content="без смещ." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,320" Height="30" Width="140" />
+        <RadioButton x:Name="skewMinRadioButton" Content="мин. знач." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,280" Height="30" Width="140" />
+        <RadioButton x:Name="skewMaxRadioButton" Content="макс. знач." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,240" Height="30" Width="140" />
+        <RadioButton x:Name="skewBothRadioButton" Content="обоим знач." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,200" Height="30" Width="140" />
+
+    </Grid>
+</UserControl>
