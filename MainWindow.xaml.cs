@@ -30,6 +30,12 @@ namespace TestGenerator
             MainGrid.Children.Clear();
             MainGrid.Children.Add(onedimArrayWindow);
         }
+        private void OpenOnedimArrayRealContent_Click(object sender, RoutedEventArgs e)
+        {
+            OnedimArrayRealWindow onedimArrayRealWindow = new OnedimArrayRealWindow();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(onedimArrayRealWindow);
+        }
         private void OpenMultidimArrayContent_Click(object sender, RoutedEventArgs e)
         {
             MultidimArrayWindow multidimArrayWindow = new MultidimArrayWindow();
@@ -39,10 +45,6 @@ namespace TestGenerator
         private void OpenStringContent_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Estimated time of arrival: Soon.");
-        }
-        private void OpenGraphContent_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("To be determined.");
         }
     }
 }
