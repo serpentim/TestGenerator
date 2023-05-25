@@ -12,15 +12,17 @@
 
         <TextBlock Text="Размер" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,60,0,0" />
         <TextBlock Text="Диапазон" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,60,0,0" />
-        
+
         <TextBlock Text="Длина массива:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" />
         <TextBox x:Name="sizeTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" Height="30" Width="155" />
-        
+
         <TextBlock Text="Мин. значение:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,100,0,0" />
         <TextBox x:Name="minValueTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,140,0,0" Height="30" Width="155" />
         <TextBlock Text="Макс. значение:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,100,0,0" />
         <TextBox x:Name="maxValueTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,140,0,0" Height="30" Width="155" />
 
+        <TextBlock Text="Выходные данные:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,190,0,0" />
+        <Rectangle Stroke="Black" Margin="450,227,25,70" />
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="450,225,25,70">
             <TextBox x:Name="resultOnedim" TextWrapping="Wrap" IsReadOnly="True" IsEnabled="True" Background="Transparent" BorderThickness="0"
                        FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Height="auto" Width="480" />
@@ -37,33 +39,46 @@
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,75,15" Click="Copy_Click" >
             <Image Source="Assets/copy.png" Width="35" Height="35"/>
         </Button>
-        <Button FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,15" Height="60" Width="100" Click="GenerateArray_Click" >
+        <Button FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,50,0" Height="60" Width="100" Click="GenerateArray_Click" >
             <TextBlock TextAlignment="Center">Генерация</TextBlock>
         </Button>
-        <RadioButton x:Name="standardRadioButton" Content="обыч." GroupName="sortOptions" Checked="SortOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,320" Height="60" Width="140" />
-        <RadioButton x:Name="sortAscRadioButton" Content="по возр." GroupName="sortOptions" Checked="SortOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,280" Height="60" Width="140" />
-        <RadioButton x:Name="sortDescRadioButton" Content="по убыв." GroupName="sortOptions" Checked="SortOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,240" Height="60" Width="140" />
-        <RadioButton x:Name="sortAscAlmostRadioButton" Content="по возр. (почти)" GroupName="sortOptions" Checked="SortOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,200" Height="60" Width="140" />
-        <RadioButton x:Name="sortDescAlmostRadioButton" Content="по убыв. (почти)" GroupName="sortOptions" Checked="SortOption_Checked" 
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,160" Height="60" Width="140" />
 
+        <TextBlock Text="Сортировка по:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,360" />
+        <RadioButton x:Name="standardRadioButton" Content="без сорт." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,320" Height="30" Width="140" />
+        <RadioButton x:Name="sortAscRadioButton" Content="возр." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,280" Height="30" Width="140" />
+        <RadioButton x:Name="sortDescRadioButton" Content="убыв." GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,240" Height="30" Width="140" />
+        <RadioButton x:Name="sortAscAlmostRadioButton" Content="возр. (почти)" GroupName="sortOptions" Checked="SortOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,200" Height="30" Width="140" />
+        <RadioButton x:Name="sortDescAlmostRadioButton" Content="убыв. (почти)" GroupName="sortOptions" Checked="SortOption_Checked" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,160" Height="30" Width="140" />
+
+        <TextBlock Text="Смещение к:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,360" />
         <RadioButton x:Name="noSkewRadioButton" Content="без смещ." GroupName="skewOptions" Checked="SkewOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,320" Height="60" Width="140" />
-        <RadioButton x:Name="skewMinRadioButton" Content="смещ. к мин." GroupName="skewOptions" Checked="SkewOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,280" Height="60" Width="140" />
-        <RadioButton x:Name="skewMaxRadioButton" Content="смещ. к макс." GroupName="skewOptions" Checked="SkewOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,240" Height="60" Width="140" />
-        <RadioButton x:Name="skewBothRadioButton" Content="смещ. к обоим." GroupName="skewOptions" Checked="SkewOption_Checked"
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,200" Height="60" Width="140" />
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,320" Height="30" Width="140" />
+        <RadioButton x:Name="skewMinRadioButton" Content="мин. знач." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,280" Height="30" Width="140" />
+        <RadioButton x:Name="skewMaxRadioButton" Content="макс. знач." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,240" Height="30" Width="140" />
+        <RadioButton x:Name="skewBothRadioButton" Content="обоим знач." GroupName="skewOptions" Checked="SkewOption_Checked"
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="220,0,0,200" Height="30" Width="140" />
 
-        <CheckBox x:Name="manySameNumbersCheckBox" Content="мало уник. знач." 
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="350,0,0,320" Height="60" Width="140" />
+        <TextBlock Text="Другие атрибуты:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,130" />
+        <CheckBox x:Name="fewUniqueCheckBox" Content="мало уник. знач." 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,80" Height="30" Width="140" />
         <CheckBox x:Name="palindromeCheckBox" Content="палиндромы" 
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="350,0,0,280" Height="60" Width="140" />
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,40" Height="30" Width="140" />
+        <CheckBox x:Name="primeCheckBox" Content="простые" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,80" Height="30" Width="140" />
+        <CheckBox x:Name="compositeCheckBox" Content="составные" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="200,0,0,40" Height="30" Width="140" />
+        <CheckBox x:Name="evenCheckBox" Content="четные" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="320,0,0,80" Height="30" Width="140" />
+        <CheckBox x:Name="oddCheckBox" Content="нечетные" 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="320,0,0,40" Height="30" Width="140" />
+
 
     </Grid>
 </UserControl>

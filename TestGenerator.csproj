@@ -82,6 +82,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="OnedimArrayRealWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="OnedimArrayWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -90,6 +94,9 @@
   <ItemGroup>
     <Compile Include="MultidimArrayWindow.xaml.cs">
       <DependentUpon>MultidimArrayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OnedimArrayRealWindow.xaml.cs">
+      <DependentUpon>OnedimArrayRealWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="OnedimArrayWindow.xaml.cs">
       <DependentUpon>OnedimArrayWindow.xaml</DependentUpon>
