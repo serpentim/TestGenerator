@@ -24,7 +24,10 @@ namespace TestGenerator
     /// </summary>
     public partial class OnedimArrayWindow : UserControl
     {
-        Random random = new Random();
+        private int seed;
+        private Random random;
+
+        //Random random = new Random(seed);
         public OnedimArrayWindow()
         {
             InitializeComponent();
@@ -47,6 +50,16 @@ namespace TestGenerator
                 int.TryParse(maxValueTextBox.Text, out int maxValue))
             {
                 int[] numbers;
+
+                if (!string.IsNullOrWhiteSpace(seedTextBox.Text) && int.TryParse(seedTextBox.Text, out int customSeed))
+                {
+                    random = new Random(customSeed);
+                }
+                else
+                {
+                    seed = Guid.NewGuid().GetHashCode();
+                    random = new Random(seed);
+                }
 
                 if (primeCheckBox.IsChecked == true || compositeCheckBox.IsChecked == true)
                 {
@@ -74,6 +87,7 @@ namespace TestGenerator
                     // Check which sorting options are selected and perform the sorting accordingly
                     SortOptions(numbers, minValue, maxValue);
                 }
+
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(size.ToString());
                 sb.AppendLine(string.Join(" ", numbers));
@@ -82,7 +96,7 @@ namespace TestGenerator
             }
             else
             {
-                MessageBox.Show("Пожалуйста, введите корректные значения для длины и диапазона массива.");
+                MessageBox.Show("Пожалуйста, введите корректные значения для сида, длины и диапазона значений массива.");
             }
         }
 
@@ -118,6 +132,7 @@ namespace TestGenerator
 
         private void SwapTwoRandomElements(int[] array)
         {
+            random = new Random(seed);
             // Генерация случайных индексов для элементов, которые будут меняться местами
             int index1 = random.Next(0, array.Length);
             int index2 = random.Next(0, array.Length);
@@ -156,6 +171,7 @@ namespace TestGenerator
         {
             for (int i = 0; i < numbers.Length; i++)
             {
+                random = new Random(seed);
                 // Generate a random number between minValue and skewedMaxValue
                 int skewedMaxValue = Math.Max(minValue, numbers[i]);
                 numbers[i] = random.Next(minValue, skewedMaxValue + 1);
@@ -165,6 +181,7 @@ namespace TestGenerator
         {
             for (int i = 0; i < numbers.Length; i++)
             {
+                random = new Random(seed);
                 // Generate a random number between skewedMinValue and maxValue
                 int skewedMinValue = Math.Min(maxValue, numbers[i]);
                 numbers[i] = random.Next(skewedMinValue, maxValue + 1);
@@ -174,6 +191,7 @@ namespace TestGenerator
         {
             for (int i = 0; i < numbers.Length; i++)
             {
+                random = new Random(seed);
                 int skewedMinValue = Math.Min(maxValue, numbers[i]);
                 int skewedMaxValue = Math.Max(minValue, numbers[i]);
 
@@ -189,6 +207,7 @@ namespace TestGenerator
                 return new int[0];
             }
 
+            random = new Random(seed);
             int[] numbers = new int[size];
 
             for (int i = 0; i < size; i++)
@@ -207,6 +226,7 @@ namespace TestGenerator
                 return new int[0];
             }
 
+            random = new Random(seed);
             int[] numbers = new int[size];
 
             for (int i = 0; i < size; i++)
@@ -238,6 +258,7 @@ namespace TestGenerator
                 return new int[0];
             }
 
+            random = new Random(seed);
             int[] numbers = new int[size];
             int quarterSize = size / 5; // Размер каждых 20% массива
 
@@ -266,6 +287,7 @@ namespace TestGenerator
                 return new int[0];
             }
 
+            random = new Random(seed);
             int[] numbers = new int[size];
             List<int> palindromeNumbers = new List<int>();
 
@@ -277,16 +299,10 @@ namespace TestGenerator
                 }
             }
 
-            /*if (palindromeNumbers.Count < size)
-            {
-                throw new ArgumentException("Недостаточное количество палиндромов в заданном диапазоне.");
-            }*/
-
             for (int i = 0; i < size; i++)
             {
                 int randomIndex = random.Next(0, palindromeNumbers.Count);
                 numbers[i] = palindromeNumbers[randomIndex];
-                //palindromeNumbers.RemoveAt(randomIndex);
             }
 
             return numbers;
@@ -331,6 +347,7 @@ namespace TestGenerator
                 return new int[0];
             }
 
+            random = new Random(seed);
             List<int> numbers = new List<int>();
 
             while (numbers.Count < size)
@@ -424,7 +441,7 @@ namespace TestGenerator
                     // Create a new zip archive
                     using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create)) //будет ошибка если попытаться сохранить файл с уже сущ именем
                     {
-                        Random random = new Random();
+                        Random random = new Random(seed);
 
                         // Create the specified number of text files
                         for (int i = 0; i < fileCount; i++)
@@ -456,7 +473,6 @@ namespace TestGenerator
                             else
                             {
                                 numbers = GenerateRandomArray(size, minValue, maxValue);
-                                // Check which sorting options are selected and perform the sorting accordingly
                                 SortOptions(numbers, minValue, maxValue);
                             }
 
@@ -485,3 +501,4 @@ namespace TestGenerator
         }
     }
 }
+

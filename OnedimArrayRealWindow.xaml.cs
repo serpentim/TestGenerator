@@ -46,10 +46,22 @@ namespace TestGenerator
                 int.TryParse(minValueTextBox.Text, out int minValue) &&
                 int.TryParse(maxValueTextBox.Text, out int maxValue))
             {
-                double[] numbers = GenerateRealNumbersArray(size, minValue, maxValue);
-                SortOptionsReal(numbers, minValue, maxValue);
-
-                resultOnedim.Text = string.Join(" ", numbers.Select(n => n.ToString("0.###", CultureInfo.InvariantCulture)));
+                double[] numbers;
+                if (fewUniqueCheckBox.IsChecked == true)
+                {
+                    numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
+                    SortOptionsReal(numbers, minValue, maxValue);
+                }
+                else
+                {
+                    numbers = GenerateRealNumbersArray(size, minValue, maxValue);
+                    SortOptionsReal(numbers, minValue, maxValue);
+                }
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(size.ToString());
+                sb.AppendLine(string.Join(" ", numbers.Select(n => n.ToString("0.###", CultureInfo.InvariantCulture))));
+                resultOnedim.Text = sb.ToString();
+                //resultOnedim.Text = string.Join(" ", numbers.Select(n => n.ToString("0.###", CultureInfo.InvariantCulture)));
             }
             else
             {
@@ -169,11 +181,37 @@ namespace TestGenerator
             return numbers;
         }
 
+        private double[] GenerateFewUniqueNumbersArray(int size, double minValue, double maxValue)
+        {
+            if (maxValue < minValue)
+            {
+                MessageBox.Show("Максимальное значение диапазона должно быть не меньше минимального значения.");
+                return new double[0];
+            }
+
+            double[] numbers = new double[size];
+            int quarterSize = size / 5;
+
+            for (int i = 0; i < size; i++)
+            {
+                if (i % quarterSize == 0)
+                {
+                    numbers[i] = minValue + (random.NextDouble() * (maxValue - minValue));
+                }
+                else
+                {
+                    numbers[i] = numbers[i - 1];
+                }
+            }
+
+            return numbers;
+        }
+
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
-            mainWindow.Show(); // Show the main window
-            Window.GetWindow(this)?.Close(); // Close the subsidiary content window
+            mainWindow.Show();
+            Window.GetWindow(this)?.Close();
         }
         private void Copy_Click(object sender, RoutedEventArgs e)
         {
@@ -182,17 +220,14 @@ namespace TestGenerator
         }
         private void SaveToFile_Click(object sender, RoutedEventArgs e)
         {
-            // Открытие диалогового окна сохранения файла
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Text Files (*.txt)|*.txt";
             if (saveFileDialog.ShowDialog() == true)
             {
-                // Получение пути выбранного файла
                 string filePath = saveFileDialog.FileName;
 
                 try
                 {
-                    // Создание и использование объекта StreamWriter для записи данных в файл
                     using (StreamWriter writer = new StreamWriter(filePath))
                     {
                         writer.Write(resultOnedim.Text);
@@ -220,31 +255,34 @@ namespace TestGenerator
                     int minValue = int.Parse(minValueTextBox.Text);
                     int maxValue = int.Parse(maxValueTextBox.Text);
 
-                    // Create a new zip archive
                     using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
                     {
                         Random random = new Random();
 
-                        // Create the specified number of text files
                         for (int i = 0; i < fileCount; i++)
                         {
                             string fileName = $"Test{i + 1}.txt";
 
-                            // Generate a new random array for each file
-                            double[] numbers = GenerateRealNumbersArray(size, (double)minValue, (double)maxValue);
-                            SortOptionsReal(numbers, minValue, maxValue);
+                            //double[] numbers = GenerateRealNumbersArray(size, (double)minValue, (double)maxValue);
+                            double[] numbers;
+                            if (fewUniqueCheckBox.IsChecked == true)
+                            {
+                                numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
+                                SortOptionsReal(numbers, minValue, maxValue);
+                            }
+                            else
+                            {
+                                numbers = GenerateRealNumbersArray(size, minValue, maxValue);
+                                SortOptionsReal(numbers, minValue, maxValue);
+                            }
 
-
-                            // Create a new entry in the zip archive with the file name
                             ZipArchiveEntry entry = zipArchive.CreateEntry(fileName);
-
-                            CultureInfo culture = new CultureInfo("en-US"); // Создание объекта CultureInfo с настройками для английского языка
-                            // Write the file content to the entry
+                            CultureInfo culture = new CultureInfo("en-US");
                             using (StreamWriter writer = new StreamWriter(entry.Open(), System.Text.Encoding.Default))
                             {
                                 foreach (double number in numbers)
                                 {
-                                    string formattedNumber = number.ToString("F3", culture); // Преобразование числа в строку с использованием настроек CultureInfo
+                                    string formattedNumber = number.ToString("F3", culture);
                                     writer.Write(formattedNumber + " ");
                                 }
                             }

@@ -10,20 +10,29 @@
         <Label Content="Многомерный массив" FontSize="30" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="50,0,0,0" />
 
         <TextBlock Text="Размер" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,60,0,0" />
-        <TextBlock Text="Диапазон" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,60,0,0" />
+        <TextBlock Text="Диапазон значений" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,60,0,0" />
         
         <TextBlock Text="Кол-во строк:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" />
         <TextBox x:Name="rowsTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" Height="30" Width="155" />
         <TextBlock Text="Кол-во столбцов:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250,100,0,0" />
         <TextBox x:Name="columnsTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250,140,0,0" Height="30" Width="155" />
         
-        <TextBlock Text="Мин. значение:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,100,0,0" />
+        <TextBlock Text="Мин:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,100,0,0" />
         <TextBox x:Name="minValueTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,140,0,0" Height="30" Width="155" />
-        <TextBlock Text="Макс. значение:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,100,0,0" />
+        <TextBlock Text="Макс:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,100,0,0" />
         <TextBox x:Name="maxValueTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="650,140,0,0" Height="30" Width="155" />
 
-        <TextBlock x:Name="resultMultidim" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,200,0,0" Height="300" Width="885" />
+        <TextBlock Text="Выходные данные:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,190,0,0" />
+        <Rectangle Stroke="Black" Margin="450,227,25,70" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="450,225,25,70">
+            <TextBox x:Name="resultMultidim" TextWrapping="Wrap" IsReadOnly="True" IsEnabled="True" Background="Transparent" BorderThickness="0"
+                       FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Height="auto" Width="480" />
+        </ScrollViewer>
 
+        <TextBox x:Name="fileCountTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,175,15" Height="35" Width="50" />
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,125,15" Click="CreateZip_Click" >
+            <Image Source="Assets/zip.png" Width="35" Height="35"/>
+        </Button>
         <Button Content="←" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,12,0,0" Width="35" Height="28" Click="Back_Click" />
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,25,15" Click="SaveToFile_Click" >
             <Image Source="Assets/save.png" Width="35" Height="35"/>
@@ -31,6 +40,10 @@
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,75,15" Click="Copy_Click" >
             <Image Source="Assets/copy.png" Width="35" Height="35"/>
         </Button>
-        <Button Content="Сгенерировать" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,15" Height="60" Width="140" Click="GenerateMultidimArrayContent_Click" />
+        <Button Content="Сгенерировать" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,15" Height="60" Width="140" Click="GenerateMultidimArray_Click" />
+
+        <TextBlock Text="Другие атрибуты:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,130" />
+        <CheckBox x:Name="fewUniqueCheckBox" Content="мало уник. знач." 
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,80" Height="30" Width="140" />
     </Grid>
 </UserControl>
