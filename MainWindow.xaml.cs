@@ -44,7 +44,9 @@ namespace TestGenerator
         }
         private void OpenStringContent_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Estimated time of arrival: Soon.");
+            StringWindow stringWindow = new StringWindow();
+            MainGrid.Children.Clear();
+            MainGrid.Children.Add(stringWindow);
         }
     }
 }

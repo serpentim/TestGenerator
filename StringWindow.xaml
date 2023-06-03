@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="TestGenerator.StringWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestGenerator"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <Grid x:Name="StringGrid">
+        <Label Content="Строки" FontSize="30" FontWeight="DemiBold" HorizontalAlignment="Left" Margin="50,0,0,0" />
+        <TextBlock Text="Длина:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" />
+        <TextBox x:Name="LengthTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" Height="30" Width="155" />
+
+        <GroupBox Header="Тип символов" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="40,220,0,0" Height="160" Width="150">
+            <StackPanel>
+                <RadioButton x:Name="AllSymbols" Content="все символы" IsChecked="True"
+                  FontSize="16" Margin="0,10,0,0" Height="30" Width="140" />
+                <RadioButton x:Name="UpperCaseRadioButton" Content="прописные"
+                  FontSize="16" Height="30" Width="140" />
+                <RadioButton x:Name="LowerCaseRadioButton" Content="строчные"
+                  FontSize="16" Height="30" Width="140" />
+                <RadioButton x:Name="DigitsRadioButton" Content="цифры"
+                  FontSize="16" Height="30" Width="140" />
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="Кол-во слов:" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="220,220,0,0" Height="140" Width="150">
+            <StackPanel>
+                <RadioButton x:Name="SingleWordRadioButton" Content="одно" IsChecked="True"
+                  FontSize="16" Margin="0,10,0,0" Height="30" Width="140" />
+                <RadioButton x:Name="MultipleWordsRadioButton" Content="несколько"
+                  FontSize="16" Height="30" Width="140" />
+                <TextBox x:Name="NumberOfWordsTextBox" HorizontalAlignment="Left"
+                  FontSize="18" Margin="10,0,0,0" Height="30" Width="120" />
+            </StackPanel>
+        </GroupBox>
+
+        <TextBlock Text="Выходные данные:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,190,0,0" />
+        <Rectangle Stroke="Black" Margin="450,227,25,70" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="450,225,25,70">
+            <TextBox x:Name="ResultTextBox" TextWrapping="Wrap" IsReadOnly="True" IsEnabled="True" Background="Transparent" BorderThickness="0"
+                       FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Height="auto" Width="480" />
+        </ScrollViewer>
+
+        <Button Content="←" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,12,0,0" Width="35" Height="28" Click="Back_Click" />
+        <Button FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,50,0" Height="60" Width="100" Click="GenerateButton_Click" >
+            <TextBlock TextAlignment="Center">Генерация</TextBlock>
+        </Button>
+    </Grid>
+</UserControl>

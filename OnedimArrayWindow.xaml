@@ -32,7 +32,7 @@
         </ScrollViewer>
 
         <Button Content="←" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,12,0,0" Width="35" Height="28" Click="Back_Click" />
-        <TextBox x:Name="fileCountTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,175,15" Height="35" Width="50" />
+        <TextBox x:Name="fileCountTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,165,15" Height="40" Width="50" />
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,125,15" Click="CreateZip_Click" >
             <Image Source="Assets/zip.png" Width="35" Height="35"/>
         </Button>
@@ -45,6 +45,7 @@
         <Button FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,50,0" Height="60" Width="100" Click="GenerateArray_Click" >
             <TextBlock TextAlignment="Center">Генерация</TextBlock>
         </Button>
+        <Button Content="Сген. сид" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,20,0" Height="30" Width="80" Click="GenerateSeed_Click" />
 
         <TextBlock Text="Сортировка по:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,360" />
         <RadioButton x:Name="standardRadioButton" Content="без сорт." GroupName="sortOptions" Checked="SortOption_Checked"

@@ -24,7 +24,7 @@ namespace TestGenerator
     /// </summary>
     public partial class OnedimArrayWindow : UserControl
     {
-        private int seed;
+        //private int seed;
         private Random random;
 
         //Random random = new Random(seed);
@@ -43,6 +43,11 @@ namespace TestGenerator
         {
         }
 
+        private void GenerateSeed_Click(object sender, RoutedEventArgs e)
+        {
+            int generatedSeed = Guid.NewGuid().GetHashCode();
+            seedTextBox.Text = generatedSeed.ToString();
+        }
         private void GenerateArray_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(sizeTextBox.Text, out int size) &&
@@ -57,42 +62,35 @@ namespace TestGenerator
                 }
                 else
                 {
-                    seed = Guid.NewGuid().GetHashCode();
-                    random = new Random(seed);
+                    random = new Random();
                 }
 
                 if (primeCheckBox.IsChecked == true || compositeCheckBox.IsChecked == true)
                 {
                     numbers = GeneratePrimeOrCompositeNumbers(size, minValue, maxValue, primeCheckBox.IsChecked == true, compositeCheckBox.IsChecked == true);
-                    SortOptions(numbers, minValue, maxValue);
                 }
                 else if (palindromeCheckBox.IsChecked == true)
                 {
                     numbers = GeneratePalindromeArray(size, minValue, maxValue);
-                    SortOptions(numbers, minValue, maxValue);
                 }
                 else if (fewUniqueCheckBox.IsChecked == true)
                 {
                     numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
-                    SortOptions(numbers, minValue, maxValue);
                 }
                 else if (oddCheckBox.IsChecked == true || evenCheckBox.IsChecked == true)
                 {
                     numbers = GenerateOddOrEvenNumbersArray(size, minValue, maxValue);
-                    SortOptions(numbers, minValue, maxValue);
                 }
                 else
                 {
                     numbers = GenerateRandomArray(size, minValue, maxValue);
-                    // Check which sorting options are selected and perform the sorting accordingly
-                    SortOptions(numbers, minValue, maxValue);
                 }
+                SortOptions(numbers, minValue, maxValue);
 
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(size.ToString());
                 sb.AppendLine(string.Join(" ", numbers));
                 resultOnedim.Text = sb.ToString();
-                //resultOnedim.Text = string.Join(" ", numbers);
             }
             else
             {
@@ -132,7 +130,6 @@ namespace TestGenerator
 
         private void SwapTwoRandomElements(int[] array)
         {
-            random = new Random(seed);
             // Генерация случайных индексов для элементов, которые будут меняться местами
             int index1 = random.Next(0, array.Length);
             int index2 = random.Next(0, array.Length);
@@ -171,7 +168,6 @@ namespace TestGenerator
         {
             for (int i = 0; i < numbers.Length; i++)
             {
-                random = new Random(seed);
                 // Generate a random number between minValue and skewedMaxValue
                 int skewedMaxValue = Math.Max(minValue, numbers[i]);
                 numbers[i] = random.Next(minValue, skewedMaxValue + 1);
@@ -181,7 +177,6 @@ namespace TestGenerator
         {
             for (int i = 0; i < numbers.Length; i++)
             {
-                random = new Random(seed);
                 // Generate a random number between skewedMinValue and maxValue
                 int skewedMinValue = Math.Min(maxValue, numbers[i]);
                 numbers[i] = random.Next(skewedMinValue, maxValue + 1);
@@ -191,7 +186,6 @@ namespace TestGenerator
         {
             for (int i = 0; i < numbers.Length; i++)
             {
-                random = new Random(seed);
                 int skewedMinValue = Math.Min(maxValue, numbers[i]);
                 int skewedMaxValue = Math.Max(minValue, numbers[i]);
 
@@ -207,7 +201,6 @@ namespace TestGenerator
                 return new int[0];
             }
 
-            random = new Random(seed);
             int[] numbers = new int[size];
 
             for (int i = 0; i < size; i++)
@@ -226,7 +219,6 @@ namespace TestGenerator
                 return new int[0];
             }
 
-            random = new Random(seed);
             int[] numbers = new int[size];
 
             for (int i = 0; i < size; i++)
@@ -258,14 +250,13 @@ namespace TestGenerator
                 return new int[0];
             }
 
-            random = new Random(seed);
             int[] numbers = new int[size];
-            int quarterSize = size / 5; // Размер каждых 20% массива
+            int uniqueValues = size / 5; // Размер каждых 20% массива
 
             for (int i = 0; i < size; i++)
             {
                 // Генерируем повторяющееся число только для каждой четверти массива
-                if (i % quarterSize == 0)
+                if (i % uniqueValues == 0)
                 {
                     numbers[i] = random.Next(minValue, maxValue + 1);
                 }
@@ -287,7 +278,6 @@ namespace TestGenerator
                 return new int[0];
             }
 
-            random = new Random(seed);
             int[] numbers = new int[size];
             List<int> palindromeNumbers = new List<int>();
 
@@ -347,7 +337,6 @@ namespace TestGenerator
                 return new int[0];
             }
 
-            random = new Random(seed);
             List<int> numbers = new List<int>();
 
             while (numbers.Count < size)
@@ -437,44 +426,45 @@ namespace TestGenerator
                     int size = int.Parse(sizeTextBox.Text);
                     int minValue = int.Parse(minValueTextBox.Text);
                     int maxValue = int.Parse(maxValueTextBox.Text);
-
+                    
                     // Create a new zip archive
                     using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create)) //будет ошибка если попытаться сохранить файл с уже сущ именем
                     {
-                        Random random = new Random(seed);
+                        Random random = null;
+                        int? seed = null;
 
-                        // Create the specified number of text files
+                        if (!string.IsNullOrWhiteSpace(seedTextBox.Text))
+                        {
+                            seed = int.Parse(seedTextBox.Text);
+                            random = new Random(seed.Value);
+                        }
+
                         for (int i = 0; i < fileCount; i++)
                         {
                             string fileName = $"Test{i + 1}.txt";
-                            int[] numbers;
+                            int[] numbers;                       
 
-                            // Generate a new random array for each file
                             if (primeCheckBox.IsChecked == true || compositeCheckBox.IsChecked == true)
                             {
                                 numbers = GeneratePrimeOrCompositeNumbers(size, minValue, maxValue, primeCheckBox.IsChecked == true, compositeCheckBox.IsChecked == true);
-                                SortOptions(numbers, minValue, maxValue);
                             }
                             else if (palindromeCheckBox.IsChecked == true)
                             {
                                 numbers = GeneratePalindromeArray(size, minValue, maxValue);
-                                SortOptions(numbers, minValue, maxValue);
                             }
                             else if (fewUniqueCheckBox.IsChecked == true)
                             {
                                 numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
-                                SortOptions(numbers, minValue, maxValue);
                             }
                             else if (oddCheckBox.IsChecked == true || evenCheckBox.IsChecked == true)
                             {
                                 numbers = GenerateOddOrEvenNumbersArray(size, minValue, maxValue);
-                                SortOptions(numbers, minValue, maxValue);
                             }
                             else
                             {
                                 numbers = GenerateRandomArray(size, minValue, maxValue);
-                                SortOptions(numbers, minValue, maxValue);
                             }
+                            SortOptions(numbers, minValue, maxValue);
 
                             // Create a new entry in the zip archive with the file name
                             ZipArchiveEntry entry = zipArchive.CreateEntry(fileName);
@@ -501,4 +491,3 @@ namespace TestGenerator
         }
     }
 }
-
