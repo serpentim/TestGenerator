@@ -43,6 +43,12 @@
         </ScrollViewer>
 
         <Button Content="←" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,12,0,0" Width="35" Height="28" Click="Back_Click" />
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,25,15" Click="SaveToFile_Click" >
+            <Image Source="Assets/save.png" Width="35" Height="35"/>
+        </Button>
+        <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,75,15" Click="Copy_Click" >
+            <Image Source="Assets/copy.png" Width="35" Height="35"/>
+        </Button>
         <Button FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,50,0" Height="60" Width="100" Click="GenerateButton_Click" >
             <TextBlock TextAlignment="Center">Генерация</TextBlock>
         </Button>

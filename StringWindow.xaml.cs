@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -119,6 +121,44 @@ namespace TestGenerator
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show(); // Show the main window
             Window.GetWindow(this)?.Close(); // Close the subsidiary content window
+        }
+        private void Copy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(ResultTextBox.Text);
+            //MessageBox.Show("Выходные данные массива были скопированы в буфер обмена.");
+        }
+        private void SaveToFile_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(LengthTextBox.Text, out int length))
+            {
+                // Открытие диалогового окна сохранения файла
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "Text Files (*.txt)|*.txt";
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    // Получение пути выбранного файла
+                    string filePath = saveFileDialog.FileName;
+
+                    try
+                    {
+                        // Создание и использование объекта StreamWriter для записи данных в файл
+                        using (StreamWriter writer = new StreamWriter(filePath))
+                        {
+                            writer.Write(ResultTextBox.Text);
+                        }
+
+                        MessageBox.Show("Файл успешно сохранен.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при сохранении файла: " + ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, введите корректное значение для размера массива.");
+            }
         }
     }
 }
