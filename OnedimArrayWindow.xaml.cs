@@ -255,7 +255,7 @@ namespace TestGenerator
 
             for (int i = 0; i < size; i++)
             {
-                // Генерируем повторяющееся число только для каждой четверти массива
+                // Генерируем повторяющееся число только для каждой 20% массива
                 if (i % uniqueValues == 0)
                 {
                     numbers[i] = random.Next(minValue, maxValue + 1);
@@ -428,7 +428,7 @@ namespace TestGenerator
                     int maxValue = int.Parse(maxValueTextBox.Text);
                     
                     // Create a new zip archive
-                    using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create)) //будет ошибка если попытаться сохранить файл с уже сущ именем
+                    using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
                     {
                         Random random = null;
                         int? seed = null;
