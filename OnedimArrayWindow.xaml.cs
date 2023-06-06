@@ -24,16 +24,17 @@ namespace TestGenerator
     /// </summary>
     public partial class OnedimArrayWindow : UserControl
     {
-        //private int seed;
+        private SeedGenerator seedGenerator;
         private Random random;
 
-        //Random random = new Random(seed);
         public OnedimArrayWindow()
         {
             InitializeComponent();
 
             standardRadioButton.IsChecked = true;
             noSkewRadioButton.IsChecked = true;
+
+            seedGenerator = new SeedGenerator();
         }
 
         private void SortOption_Checked(object sender, RoutedEventArgs e)
@@ -62,30 +63,35 @@ namespace TestGenerator
                 }
                 else
                 {
-                    random = new Random();
+                    random = new Random(seedGenerator.GetRandomSeed());
                 }
 
                 if (primeCheckBox.IsChecked == true || compositeCheckBox.IsChecked == true)
                 {
-                    numbers = GeneratePrimeOrCompositeNumbers(size, minValue, maxValue, primeCheckBox.IsChecked == true, compositeCheckBox.IsChecked == true);
+                    numbers = GeneratePrimeOrCompositeNumbers(size, minValue, maxValue, primeCheckBox.IsChecked == true, compositeCheckBox.IsChecked == true, random);
+                    SortOptions(numbers, minValue, maxValue);
                 }
                 else if (palindromeCheckBox.IsChecked == true)
                 {
-                    numbers = GeneratePalindromeArray(size, minValue, maxValue);
+                    numbers = GeneratePalindromeArray(size, minValue, maxValue, random);
+                    SortOptions(numbers, minValue, maxValue);
                 }
                 else if (fewUniqueCheckBox.IsChecked == true)
                 {
-                    numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
+                    numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue, random);
+                    SortOptions(numbers, minValue, maxValue);
                 }
                 else if (oddCheckBox.IsChecked == true || evenCheckBox.IsChecked == true)
                 {
-                    numbers = GenerateOddOrEvenNumbersArray(size, minValue, maxValue);
+                    numbers = GenerateOddOrEvenNumbersArray(size, minValue, maxValue, random);
+                    SortOptions(numbers, minValue, maxValue);
                 }
                 else
                 {
-                    numbers = GenerateRandomArray(size, minValue, maxValue);
+                    numbers = GenerateRandomArray(size, minValue, maxValue, random);
+                    SortOptions(numbers, minValue, maxValue);
                 }
-                SortOptions(numbers, minValue, maxValue);
+                
 
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(size.ToString());
@@ -168,18 +174,66 @@ namespace TestGenerator
         {
             for (int i = 0; i < numbers.Length; i++)
             {
-                // Generate a random number between minValue and skewedMaxValue
                 int skewedMaxValue = Math.Max(minValue, numbers[i]);
-                numbers[i] = random.Next(minValue, skewedMaxValue + 1);
+
+                if (evenCheckBox.IsChecked == true)
+                {
+                    int randomNumber = random.Next(minValue, skewedMaxValue + 1);
+                    while (randomNumber % 2 != 0)
+                    {
+                        randomNumber = random.Next(minValue, skewedMaxValue + 1);
+                    }
+                    numbers[i] = randomNumber;
+                    //numbers[i] = random.Next(minValue, skewedMaxValue / 2 + 1) * 2;
+                }
+                else if (oddCheckBox.IsChecked == true)
+                {
+                    int randomNumber = random.Next(minValue, skewedMaxValue + 1);
+                    while (randomNumber % 2 == 0)
+                    {
+                        randomNumber = random.Next(minValue, skewedMaxValue + 1);
+                    }
+                    numbers[i] = randomNumber;
+                    //numbers[i] = random.Next(minValue, (skewedMaxValue - 1) / 2 + 1) * 2 + 1;
+                }
+                else
+                {
+                    // Generate a random number between minValue and skewedMaxValue
+                    numbers[i] = random.Next(minValue, skewedMaxValue + 1);
+                }
             }
         }
         private void SkewNumbersTowardsMax(int[] numbers, int minValue, int maxValue)
         {
             for (int i = 0; i < numbers.Length; i++)
             {
-                // Generate a random number between skewedMinValue and maxValue
                 int skewedMinValue = Math.Min(maxValue, numbers[i]);
-                numbers[i] = random.Next(skewedMinValue, maxValue + 1);
+
+                if (evenCheckBox.IsChecked == true)
+                {
+                    int randomNumber = random.Next(skewedMinValue, maxValue + 1);
+                    while (randomNumber % 2 != 0)
+                    {
+                        randomNumber = random.Next(skewedMinValue, maxValue + 1);
+                    }
+                    numbers[i] = randomNumber;
+                    //numbers[i] = random.Next((skewedMinValue + 1) / 2, maxValue / 2 + 1) * 2;
+                }
+                else if (oddCheckBox.IsChecked == true)
+                {
+                    int randomNumber = random.Next(skewedMinValue, maxValue + 1);
+                    while (randomNumber % 2 == 0)
+                    {
+                        randomNumber = random.Next(skewedMinValue, maxValue + 1);
+                    }
+                    numbers[i] = randomNumber;
+                    //numbers[i] = random.Next(skewedMinValue / 2, maxValue / 2 + 1) * 2 + 1;
+                }
+                else
+                {
+                    // Generate a random number between skewedMinValue and maxValue
+                    numbers[i] = random.Next(skewedMinValue, maxValue + 1);
+                }
             }
         }
         private void SkewNumbersToBoth(int[] numbers, int minValue, int maxValue)
@@ -193,7 +247,7 @@ namespace TestGenerator
             }
         }
 
-        private int[] GenerateRandomArray(int size, int minValue, int maxValue)
+        private int[] GenerateRandomArray(int size, int minValue, int maxValue, Random random)
         {
             if (maxValue < minValue)
             {
@@ -211,7 +265,7 @@ namespace TestGenerator
             return numbers;
         }
 
-        private int[] GenerateOddOrEvenNumbersArray(int size, int minValue, int maxValue)
+        private int[] GenerateOddOrEvenNumbersArray(int size, int minValue, int maxValue, Random random)
         {
             if (maxValue < minValue)
             {
@@ -220,7 +274,7 @@ namespace TestGenerator
             }
 
             int[] numbers = new int[size];
-
+            
             for (int i = 0; i < size; i++)
             {
                 int randomNumber = random.Next(minValue, maxValue + 1);
@@ -242,7 +296,7 @@ namespace TestGenerator
             return numbers;
         }
 
-        private int[] GenerateFewUniqueNumbersArray(int size, int minValue, int maxValue)
+        private int[] GenerateFewUniqueNumbersArray(int size, int minValue, int maxValue, Random random)
         {
             if (maxValue < minValue)
             {
@@ -267,10 +321,19 @@ namespace TestGenerator
                 }
             }
 
+            // Алгоритм Фишера-Йетса для перемешивания значений массива
+            for (int i = size - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                int temp = numbers[i];
+                numbers[i] = numbers[j];
+                numbers[j] = temp;
+            }
+
             return numbers;
         }
 
-        private int[] GeneratePalindromeArray(int size, int minValue, int maxValue)
+        private int[] GeneratePalindromeArray(int size, int minValue, int maxValue, Random random)
         {
             if (maxValue < minValue)
             {
@@ -317,7 +380,7 @@ namespace TestGenerator
             return true;
         }
 
-        private int[] GeneratePrimeOrCompositeNumbers(int size, int minValue, int maxValue, bool generatePrimes, bool generateComposites)
+        private int[] GeneratePrimeOrCompositeNumbers(int size, int minValue, int maxValue, bool generatePrimes, bool generateComposites, Random random)
         {
             if (primeCheckBox.IsChecked == true && minValue < 2)
             {
@@ -430,39 +493,42 @@ namespace TestGenerator
                     // Create a new zip archive
                     using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
                     {
-                        Random random = null;
-                        int? seed = null;
+                        SeedGenerator seedGenerator = new SeedGenerator(!string.IsNullOrWhiteSpace(seedTextBox.Text) ? int.Parse(seedTextBox.Text) : (int?)null);
 
                         if (!string.IsNullOrWhiteSpace(seedTextBox.Text))
                         {
-                            seed = int.Parse(seedTextBox.Text);
-                            random = new Random(seed.Value);
+                            int seedValue = int.Parse(seedTextBox.Text);
+                            seedGenerator = new SeedGenerator(seedValue);
                         }
 
                         for (int i = 0; i < fileCount; i++)
                         {
                             string fileName = $"Test{i + 1}.txt";
-                            int[] numbers;                       
+                            int[] numbers;
+
+                            // Генерация случайных чисел с использованием указанного сида или случайного сида
+                            int seed = seedGenerator.GetRandomSeed();
+                            Random random = new Random(seed);
 
                             if (primeCheckBox.IsChecked == true || compositeCheckBox.IsChecked == true)
                             {
-                                numbers = GeneratePrimeOrCompositeNumbers(size, minValue, maxValue, primeCheckBox.IsChecked == true, compositeCheckBox.IsChecked == true);
+                                numbers = GeneratePrimeOrCompositeNumbers(size, minValue, maxValue, primeCheckBox.IsChecked == true, compositeCheckBox.IsChecked == true, random);
                             }
                             else if (palindromeCheckBox.IsChecked == true)
                             {
-                                numbers = GeneratePalindromeArray(size, minValue, maxValue);
+                                numbers = GeneratePalindromeArray(size, minValue, maxValue, random);
                             }
                             else if (fewUniqueCheckBox.IsChecked == true)
                             {
-                                numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
+                                numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue, random);
                             }
                             else if (oddCheckBox.IsChecked == true || evenCheckBox.IsChecked == true)
                             {
-                                numbers = GenerateOddOrEvenNumbersArray(size, minValue, maxValue);
+                                numbers = GenerateOddOrEvenNumbersArray(size, minValue, maxValue, random);
                             }
                             else
                             {
-                                numbers = GenerateRandomArray(size, minValue, maxValue);
+                                numbers = GenerateRandomArray(size, minValue, maxValue, random);
                             }
                             SortOptions(numbers, minValue, maxValue);
 
@@ -489,5 +555,5 @@ namespace TestGenerator
                 MessageBox.Show("Пожалуйста, введите корректное количество файлов.");
             }
         }
-    }
+    } 
 }

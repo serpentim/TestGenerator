@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SeedGenerator.cs" />
     <Compile Include="StringWindow.xaml.cs">
       <DependentUpon>StringWindow.xaml</DependentUpon>
     </Compile>

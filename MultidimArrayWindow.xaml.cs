@@ -23,12 +23,22 @@ namespace TestGenerator
     /// </summary>
     public partial class MultidimArrayWindow : UserControl
     {
-        private Random random = new Random();
+        private SeedGenerator seedGenerator;
+        private Random random;
         private int[,] multidimArray;
         public MultidimArrayWindow()
         {
             InitializeComponent();
+
+            seedGenerator = new SeedGenerator();
         }
+
+        private void GenerateSeed_Click(object sender, RoutedEventArgs e)
+        {
+            int generatedSeed = Guid.NewGuid().GetHashCode();
+            seedTextBox.Text = generatedSeed.ToString();
+        }
+
         private void GenerateMultidimArray_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(rowsTextBox.Text, out int rows) &&
@@ -42,13 +52,22 @@ namespace TestGenerator
                     return;
                 }
 
-                if (fewUniqueCheckBox.IsChecked == true)
+                if (!string.IsNullOrWhiteSpace(seedTextBox.Text) && int.TryParse(seedTextBox.Text, out int customSeed))
                 {
-                    multidimArray = GenerateFewUniqueNumbersArray(rows, columns, minValue, maxValue);
+                    random = new Random(customSeed);
                 }
                 else
                 {
-                    multidimArray = GenerateMultidimArray(rows, columns, minValue, maxValue);
+                    random = new Random(seedGenerator.GetRandomSeed());
+                }
+
+                if (fewUniqueCheckBox.IsChecked == true)
+                {
+                    multidimArray = GenerateFewUniqueNumbersArray(rows, columns, minValue, maxValue, random);
+                }
+                else
+                {
+                    multidimArray = GenerateMultidimArray(rows, columns, minValue, maxValue, random);
                 }
 
                 DisplayMultidimArray();
@@ -59,7 +78,7 @@ namespace TestGenerator
             }
         }
 
-        private int[,] GenerateMultidimArray(int rows, int columns, int minValue, int maxValue)
+        private int[,] GenerateMultidimArray(int rows, int columns, int minValue, int maxValue, Random random)
         {
             int[,] multidimArray = new int[rows, columns];
 
@@ -91,28 +110,7 @@ namespace TestGenerator
             resultMultidim.Text = stringBuilder.ToString();
         }
 
-        /*private int[,] GenerateFewUniqueNumbersArray(int rows, int columns, int minValue, int maxValue)
-        {
-            int[,] multidimArray = new int[rows, columns];
-            int quarterSize = ((rows + columns) / 2) / 5;
-
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < columns; j++)
-                {
-                    if ((i / quarterSize) == (j / quarterSize))
-                    {
-                        multidimArray[i, j] = random.Next(minValue, maxValue + 1);
-                    }
-                    else
-                    {
-                         multidimArray[i, j] = multidimArray[i - 1, j - 1];
-                    }
-                }
-            }
-            return multidimArray;
-        }*/
-        private int[,] GenerateFewUniqueNumbersArray(int rows, int columns, int minValue, int maxValue)
+        private int[,] GenerateFewUniqueNumbersArray(int rows, int columns, int minValue, int maxValue, Random random)
         {
             int[,] multidimArray = new int[rows, columns];
             int quarterSize = ((rows + columns) / 2) / 5;
@@ -133,6 +131,19 @@ namespace TestGenerator
                     }
                 }
             }
+
+            int totalElements = rows * columns;
+            for (int k = totalElements - 1; k > 0; k--)
+            {
+                int i = k / columns;
+                int j = k % columns;
+                int l = random.Next(k + 1);
+
+                int temp = multidimArray[i, j];
+                multidimArray[i, j] = multidimArray[l / columns, l % columns];
+                multidimArray[l / columns, l % columns] = temp;
+            }
+
             return multidimArray;
         }
 
@@ -196,11 +207,11 @@ namespace TestGenerator
 
                             if (fewUniqueCheckBox.IsChecked == true)
                             {
-                                multidimArray = GenerateFewUniqueNumbersArray(rows, columns, minValue, maxValue);
+                                multidimArray = GenerateFewUniqueNumbersArray(rows, columns, minValue, maxValue, random);
                             }
                             else
                             {
-                                multidimArray = GenerateMultidimArray(rows, columns, minValue, maxValue);
+                                multidimArray = GenerateMultidimArray(rows, columns, minValue, maxValue, random);
                             }
 
                             ZipArchiveEntry entry = zipArchive.CreateEntry(fileName);

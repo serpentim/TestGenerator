@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,8 @@ namespace TestGenerator
     /// </summary>
     public partial class StringWindow : UserControl
     {
+        private SeedGenerator seedGenerator;
+        private Random random;
         //private const string Characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
         private const string UppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private const string LowercaseCharacters = "abcdefghijklmnopqrstuvwxyz";
@@ -30,7 +33,16 @@ namespace TestGenerator
         public StringWindow()
         {
             InitializeComponent();
+
+            seedGenerator = new SeedGenerator();
         }
+
+        private void GenerateSeed_Click(object sender, RoutedEventArgs e)
+        {
+            int generatedSeed = Guid.NewGuid().GetHashCode();
+            seedTextBox.Text = generatedSeed.ToString();
+        }
+
         private void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
             int length;
@@ -40,12 +52,21 @@ namespace TestGenerator
                 return;
             }
             int numberOfWords = 0;
-            if (MultipleWordsRadioButton.IsChecked == true && !int.TryParse(NumberOfWordsTextBox.Text, out numberOfWords))
+            if (MultipleWordsRadioButton.IsChecked == true && !int.TryParse(wordCountTextBox.Text, out numberOfWords))
             {
                 MessageBox.Show("Недопустимое количество слов. Пожалуйста, введите допустимое целое число.");
                 return;
             }
             string generatedString = "";
+
+            if (!string.IsNullOrWhiteSpace(seedTextBox.Text) && int.TryParse(seedTextBox.Text, out int customSeed))
+            {
+                random = new Random(customSeed);
+            }
+            else
+            {
+                random = new Random(seedGenerator.GetRandomSeed());
+            }
 
             if (SingleWordRadioButton.IsChecked == true)
             {
@@ -60,7 +81,6 @@ namespace TestGenerator
         }
         private string GenerateRandomString(int length, string selectedCharacters)
         {
-            Random random = new Random();
             StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < length; i++)
@@ -73,12 +93,15 @@ namespace TestGenerator
         }
         private string GenerateMultipleWords(int length, int numberOfWords, string selectedCharacters)
         {
-            Random random = new Random();
             StringBuilder sb = new StringBuilder();
+
+            int remainingLength = length;
+            int remainingWords = numberOfWords;
 
             for (int i = 0; i < numberOfWords; i++)
             {
-                int wordLength = random.Next(1, length / numberOfWords + 1);
+                int wordLength = (remainingLength / remainingWords);
+
                 StringBuilder wordBuilder = new StringBuilder();
 
                 for (int j = 0; j < wordLength; j++)
@@ -91,6 +114,9 @@ namespace TestGenerator
                 string word = wordBuilder.ToString();
                 sb.Append(word);
                 sb.Append(" ");
+
+                remainingLength -= wordLength;
+                remainingWords--;
             }
 
             return sb.ToString().Trim();
@@ -158,6 +184,74 @@ namespace TestGenerator
             else
             {
                 MessageBox.Show("Пожалуйста, введите корректное значение для размера массива.");
+            }
+        }
+        private void CreateZip_Click(object sender, RoutedEventArgs e)
+        {
+            if (int.TryParse(fileCountTextBox.Text, out int fileCount))
+            {
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.Filter = "ZIP Archive (*.zip)|*.zip";
+                if (saveFileDialog.ShowDialog() == true)
+                {
+                    string zipFilePath = saveFileDialog.FileName;
+                    int length = int.Parse(LengthTextBox.Text);
+                    //int numberOfWords = int.Parse(wordCountTextBox.Text);
+                    int numberOfWords = 0;
+                    if (MultipleWordsRadioButton.IsChecked == true)
+                    {
+                        if (!int.TryParse(wordCountTextBox.Text, out numberOfWords))
+                        {
+                            MessageBox.Show("Недопустимое количество слов. Пожалуйста, введите допустимое целое число.");
+                            return;
+                        }
+                    }
+                    // Create a new zip archive
+                    using (ZipArchive zipArchive = ZipFile.Open(zipFilePath, ZipArchiveMode.Create))
+                    {
+                        SeedGenerator seedGenerator = new SeedGenerator(!string.IsNullOrWhiteSpace(seedTextBox.Text) ? int.Parse(seedTextBox.Text) : (int?)null);
+
+                        if (!string.IsNullOrWhiteSpace(seedTextBox.Text))
+                        {
+                            int seedValue = int.Parse(seedTextBox.Text);
+                            seedGenerator = new SeedGenerator(seedValue);
+                        }
+
+                        for (int i = 0; i < fileCount; i++)
+                        {
+                            string fileName = $"Test{i + 1}.txt";
+                            string generatedString = "";
+
+                            // Генерация случайных чисел с использованием указанного сида или случайного сида
+                            int seed = seedGenerator.GetRandomSeed();
+                            Random random = new Random(seed);
+
+                            if (SingleWordRadioButton.IsChecked == true)
+                            {
+                                generatedString = GenerateRandomString(length, GetSelectedCharacters());
+                            }
+                            else if (MultipleWordsRadioButton.IsChecked == true)
+                            {
+                                generatedString = GenerateMultipleWords(length, numberOfWords, GetSelectedCharacters());
+                            }
+
+                            // Create a new entry in the zip archive with the file name
+                            ZipArchiveEntry entry = zipArchive.CreateEntry(fileName);
+
+                            // Write the file content to the entry
+                            using (StreamWriter writer = new StreamWriter(entry.Open(), System.Text.Encoding.UTF8))
+                            {
+                                writer.WriteLine(length);
+                                writer.WriteLine(generatedString);
+                            }
+                        }
+                    }
+                    //MessageBox.Show("Файлы успешно созданы внутри архива.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, введите корректное количество файлов.");
             }
         }
     }

@@ -11,7 +11,11 @@
 
         <TextBlock Text="Размер" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,60,0,0" />
         <TextBlock Text="Диапазон значений" FontSize="24" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="450,60,0,0" />
-        
+
+        <TextBlock Text="Сид:" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,150,0" />
+        <TextBox x:Name="seedTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,20,0" Height="30" Width="120" />
+        <Button Content="Сген. сид" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,20,0" Height="30" Width="80" Click="GenerateSeed_Click" />
+
         <TextBlock Text="Кол-во строк:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" />
         <TextBox x:Name="rowsTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" Height="30" Width="155" />
         <TextBlock Text="Кол-во столбцов:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="250,100,0,0" />
@@ -29,7 +33,7 @@
                        FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" Height="auto" Width="480" />
         </ScrollViewer>
 
-        <TextBox x:Name="fileCountTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,175,15" Height="35" Width="50" />
+        <TextBox x:Name="fileCountTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,165,15" Height="40" Width="50" />
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,125,15" Click="CreateZip_Click" >
             <Image Source="Assets/zip.png" Width="35" Height="35"/>
         </Button>
@@ -40,10 +44,12 @@
         <Button HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,75,15" Click="Copy_Click" >
             <Image Source="Assets/copy.png" Width="35" Height="35"/>
         </Button>
-        <Button Content="Сгенерировать" FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,15" Height="60" Width="140" Click="GenerateMultidimArray_Click" />
+        <Button FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,50,0" Height="60" Width="100" Click="GenerateMultidimArray_Click" >
+            <TextBlock TextAlignment="Center">Генерация</TextBlock>
+        </Button>
 
-        <TextBlock Text="Другие атрибуты:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,130" />
+        <TextBlock Text="Другие атрибуты:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,360" />
         <CheckBox x:Name="fewUniqueCheckBox" Content="мало уник. знач." 
-                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,80" Height="30" Width="140" />
+                  FontSize="16" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,320" Height="30" Width="140" />
     </Grid>
 </UserControl>

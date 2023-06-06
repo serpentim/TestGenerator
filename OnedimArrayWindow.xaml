@@ -15,6 +15,7 @@
 
         <TextBlock Text="Сид:" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,150,0" />
         <TextBox x:Name="seedTextBox" FontSize="18" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,15,20,0" Height="30" Width="120" />
+        <Button Content="Сген. сид" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,20,0" Height="30" Width="80" Click="GenerateSeed_Click" />
         
         <TextBlock Text="Длина массива:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,100,0,0" />
         <TextBox x:Name="sizeTextBox" FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,140,0,0" Height="30" Width="155" />
@@ -45,7 +46,6 @@
         <Button FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,110,50,0" Height="60" Width="100" Click="GenerateArray_Click" >
             <TextBlock TextAlignment="Center">Генерация</TextBlock>
         </Button>
-        <Button Content="Сген. сид" FontSize="16" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,50,20,0" Height="30" Width="80" Click="GenerateSeed_Click" />
 
         <TextBlock Text="Сортировка по:" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="50,0,0,360" />
         <RadioButton x:Name="standardRadioButton" Content="без сорт." GroupName="sortOptions" Checked="SortOption_Checked"

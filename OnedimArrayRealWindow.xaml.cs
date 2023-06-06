@@ -24,13 +24,17 @@ namespace TestGenerator
     /// </summary>
     public partial class OnedimArrayRealWindow : UserControl
     {
-        Random random = new Random();
+        private SeedGenerator seedGenerator;
+        private Random random;
+
         public OnedimArrayRealWindow()
         {
             InitializeComponent();
 
             standardRadioButton.IsChecked = true;
             noSkewRadioButton.IsChecked = true;
+
+            seedGenerator = new SeedGenerator();
         }
 
         private void SortOption_Checked(object sender, RoutedEventArgs e)
@@ -40,6 +44,12 @@ namespace TestGenerator
         {
         }
 
+        private void GenerateSeed_Click(object sender, RoutedEventArgs e)
+        {
+            int generatedSeed = Guid.NewGuid().GetHashCode();
+            seedTextBox.Text = generatedSeed.ToString();
+        }
+
         private void GenerateArrayReal_Click(object sender, RoutedEventArgs e)
         {
             if (int.TryParse(sizeTextBox.Text, out int size) &&
@@ -47,21 +57,30 @@ namespace TestGenerator
                 int.TryParse(maxValueTextBox.Text, out int maxValue))
             {
                 double[] numbers;
+
+                if (!string.IsNullOrWhiteSpace(seedTextBox.Text) && int.TryParse(seedTextBox.Text, out int customSeed))
+                {
+                    random = new Random(customSeed);
+                }
+                else
+                {
+                    random = new Random(seedGenerator.GetRandomSeed());
+                }
+
                 if (fewUniqueCheckBox.IsChecked == true)
                 {
-                    numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
+                    numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue, random);
                     SortOptionsReal(numbers, minValue, maxValue);
                 }
                 else
                 {
-                    numbers = GenerateRealNumbersArray(size, minValue, maxValue);
+                    numbers = GenerateRealNumbersArray(size, minValue, maxValue, random);
                     SortOptionsReal(numbers, minValue, maxValue);
                 }
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(size.ToString());
                 sb.AppendLine(string.Join(" ", numbers.Select(n => n.ToString("0.###", CultureInfo.InvariantCulture))));
                 resultOnedim.Text = sb.ToString();
-                //resultOnedim.Text = string.Join(" ", numbers.Select(n => n.ToString("0.###", CultureInfo.InvariantCulture)));
             }
             else
             {
@@ -163,7 +182,7 @@ namespace TestGenerator
             }
         }
 
-        private double[] GenerateRealNumbersArray(int size, double minValue, double maxValue)
+        private double[] GenerateRealNumbersArray(int size, double minValue, double maxValue, Random random)
         {
             if (maxValue < minValue)
             {
@@ -181,7 +200,7 @@ namespace TestGenerator
             return numbers;
         }
 
-        private double[] GenerateFewUniqueNumbersArray(int size, double minValue, double maxValue)
+        private double[] GenerateFewUniqueNumbersArray(int size, double minValue, double maxValue, Random random)
         {
             if (maxValue < minValue)
             {
@@ -202,6 +221,14 @@ namespace TestGenerator
                 {
                     numbers[i] = numbers[i - 1];
                 }
+            }
+
+            for (int i = size - 1; i > 0; i--)
+            {
+                int j = random.Next(i + 1);
+                double temp = numbers[i];
+                numbers[i] = numbers[j];
+                numbers[j] = temp;
             }
 
             return numbers;
@@ -267,12 +294,12 @@ namespace TestGenerator
                             double[] numbers;
                             if (fewUniqueCheckBox.IsChecked == true)
                             {
-                                numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue);
+                                numbers = GenerateFewUniqueNumbersArray(size, minValue, maxValue, random);
                                 SortOptionsReal(numbers, minValue, maxValue);
                             }
                             else
                             {
-                                numbers = GenerateRealNumbersArray(size, minValue, maxValue);
+                                numbers = GenerateRealNumbersArray(size, minValue, maxValue, random);
                                 SortOptionsReal(numbers, minValue, maxValue);
                             }
 
